@@ -22,5 +22,13 @@ ServerURI = "https://bbb.example.com/bigbluebutton/"
 SharedSecret = ""
 
 [Selenium]
+# The path to the selenium-server.jar
 SeleniumPath = ""
-ChromiumPath = ""
+# The path to geckodriver
+GeckoDriverPath = ""
+# The path to firefox
+FirefoxPath = ""
+# Set to true to disable headless running
+DisableHeadless = false
+# The number of running instances
+InstanceCount = 4

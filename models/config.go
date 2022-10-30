@@ -14,8 +14,11 @@ type BigBlueButton struct {
 }
 
 type Selenium struct {
-	SeleniumPath string
-	ChromiumPath string
+	SeleniumPath    string
+	GeckoDriverPath string
+	FirefoxPath     string
+	DisableHeadless bool
+	InstanceCount   uint
 }
 
 type Config struct {
