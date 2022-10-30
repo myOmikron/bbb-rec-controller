@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"fmt"
 	"net/url"
+	"strings"
 )
 
 func (bbb *BBB) computeChecksum(endpoint string, values *url.Values) string {
@@ -13,6 +14,7 @@ func (bbb *BBB) computeChecksum(endpoint string, values *url.Values) string {
 
 func (bbb *BBB) IsValid(endpoint string, values *url.Values) bool {
 	checksum := values.Get("checksum")
+	checksum = strings.ToLower(checksum)
 	values.Del("checksum")
 	return checksum == bbb.computeChecksum(endpoint, values)
 }
