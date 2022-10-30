@@ -56,7 +56,7 @@ func StartServer(configPath string) {
 
 	initializeMiddleware(e, conf)
 
-	defineRoutes(e, conf, bbb)
+	defineRoutes(e, conf, bbb, workerPool)
 
 	color.Printf(color.PURPLE, "Started listening on http://%s\n", net.JoinHostPort(conf.Server.ListenAddress, strconv.Itoa(int(conf.Server.ListenPort))))
 	execution.SignalStart(e, net.JoinHostPort(conf.Server.ListenAddress, strconv.Itoa(int(conf.Server.ListenPort))), &execution.Config{

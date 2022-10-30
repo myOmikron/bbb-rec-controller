@@ -34,15 +34,26 @@ func (w *Wrapper) IsRecordingRunning(c echo.Context) error {
 	}
 
 	q := c.Request().URL.Query()
-	if !w.BBB.IsValid("stopRecording", &q) {
+	if !w.BBB.IsValid("isRecordingRunning", &q) {
 		return c.XML(400, errorResponse{
 			ReturnCode: "FAILED",
-			Message:    "ChecksumIncorrect",
-			MessageKey: "The provided checksum was incorrect",
+			MessageKey: "ChecksumIncorrect",
+			Message:    "The provided checksum was incorrect",
+		})
+	}
+
+	isRunning, err := w.BBB.IsRecordingRunning(w.SeleniumPool, form.MeetingID)
+	if err != nil {
+		c.Logger().Error(err)
+		return c.XML(500, errorResponse{
+			ReturnCode: "FAILED",
+			MessageKey: "InternalServerError",
+			Message:    err.Error(),
 		})
 	}
 
 	return c.XML(200, isRecordingRunningResponse{
 		ReturnCode: "SUCCESS",
+		Running:    isRunning,
 	})
 }

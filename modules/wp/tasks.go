@@ -25,7 +25,7 @@ func (w *w) SetQueue(c chan worker.Task) {
 }
 
 func (w *w) Start() {
-	ctx := context.WithValue(context.Background(), "conn", "todo!")
+	ctx := context.WithValue(context.Background(), "selenium", w.Driver)
 	for {
 		select {
 		case <-w.quit:
@@ -73,7 +73,7 @@ func CreateSeleniumWorker(conf *models.Config, logger echo.Logger) func() (worke
 			selenium.Output(logger.Output()),
 		}
 
-		if conf.Selenium.DisableHeadless {
+		if !conf.Selenium.DisableHeadless {
 			opts = append(opts, selenium.StartFrameBuffer())
 		}
 

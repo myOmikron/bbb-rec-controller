@@ -44,10 +44,18 @@ func (w *Wrapper) StopRecording(c echo.Context) error {
 		})
 	}
 
-	running := false
+	wasRunning, err := w.BBB.PauseRecording(w.SeleniumPool, form.MeetingID)
+	if err != nil {
+		c.Logger().Error(err)
+		return c.XML(500, errorResponse{
+			ReturnCode: "FAILED",
+			MessageKey: "InternalServerError",
+			Message:    err.Error(),
+		})
+	}
 
 	return c.XML(200, stopRecordingResponse{
 		ReturnCode:    "SUCCESS",
-		StopRecording: running,
+		StopRecording: wasRunning,
 	})
 }
