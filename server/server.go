@@ -48,11 +48,15 @@ func StartServer(configPath string) {
 		return
 	}
 
-	bbb := bigbluebutton.BBB{Config: &conf.BigBlueButton}
+	bbb, err := bigbluebutton.New(e.Logger, &conf.BigBlueButton)
+	if err != nil {
+		color.Println(color.RED, err.Error())
+		return
+	}
 
 	initializeMiddleware(e, conf)
 
-	defineRoutes(e, conf, &bbb)
+	defineRoutes(e, conf, bbb)
 
 	color.Printf(color.PURPLE, "Started listening on http://%s\n", net.JoinHostPort(conf.Server.ListenAddress, strconv.Itoa(int(conf.Server.ListenPort))))
 	execution.SignalStart(e, net.JoinHostPort(conf.Server.ListenAddress, strconv.Itoa(int(conf.Server.ListenPort))), &execution.Config{
