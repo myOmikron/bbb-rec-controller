@@ -69,9 +69,12 @@ func CreateSeleniumWorker(conf *models.Config, logger echo.Logger) func() (worke
 		}
 
 		opts := []selenium.ServiceOption{
-			//selenium.StartFrameBuffer(),
 			selenium.GeckoDriver(conf.Selenium.GeckoDriverPath),
 			selenium.Output(logger.Output()),
+		}
+
+		if conf.Selenium.DisableHeadless {
+			opts = append(opts, selenium.StartFrameBuffer())
 		}
 
 		service, err := selenium.NewSeleniumService(conf.Selenium.SeleniumPath, port, opts...)
