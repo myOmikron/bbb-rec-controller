@@ -25,6 +25,14 @@ func (w *Wrapper) IsRecordingRunning(c echo.Context) error {
 		})
 	}
 
+	if form.MeetingID == "" {
+		return c.XML(400, errorResponse{
+			ReturnCode: "FAILED",
+			MessageKey: "MeetingIDMissing",
+			Message:    "The parameter meetingID is missing",
+		})
+	}
+
 	return c.XML(200, isRecordingRunningResponse{
 		ReturnCode: "SUCCESS",
 	})

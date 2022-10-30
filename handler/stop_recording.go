@@ -24,13 +24,14 @@ func (w *Wrapper) StopRecording(c echo.Context) error {
 		return c.XML(400, errorResponse{
 			ReturnCode: "FAILED",
 			MessageKey: "Bad request",
+			Message:    err.Error(),
 		})
 	}
 
 	if form.MeetingID == "" {
 		return c.XML(400, errorResponse{
 			ReturnCode: "FAILED",
-			MessageKey: "MissingParameterMeetingID",
+			MessageKey: "MeetingIDMissing",
 			Message:    "The parameter meetingID is missing",
 		})
 	}
