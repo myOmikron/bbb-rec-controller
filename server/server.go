@@ -3,21 +3,21 @@ package server
 import (
 	"errors"
 	"fmt"
-	"github.com/labstack/gommon/log"
-	"github.com/myOmikron/bbb-rec-controller/modules/bigbluebutton"
-	"github.com/myOmikron/bbb-rec-controller/modules/wp"
-	"github.com/myOmikron/echotools/worker"
 	"io/fs"
 	"net"
 	"os"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"github.com/myOmikron/echotools/color"
 	"github.com/myOmikron/echotools/execution"
+	"github.com/myOmikron/echotools/worker"
 	"github.com/pelletier/go-toml"
 
 	"github.com/myOmikron/bbb-rec-controller/models"
+	"github.com/myOmikron/bbb-rec-controller/modules/bigbluebutton"
+	"github.com/myOmikron/bbb-rec-controller/modules/wp"
 )
 
 func StartServer(configPath string) {
@@ -61,13 +61,14 @@ func StartServer(configPath string) {
 	color.Printf(color.PURPLE, "Started listening on http://%s\n", net.JoinHostPort(conf.Server.ListenAddress, strconv.Itoa(int(conf.Server.ListenPort))))
 	execution.SignalStart(e, net.JoinHostPort(conf.Server.ListenAddress, strconv.Itoa(int(conf.Server.ListenPort))), &execution.Config{
 		ReloadFunc: func() {
+			workerPool.Stop()
 			StartServer(configPath)
 		},
 		StopFunc: func() {
-
+			workerPool.Stop()
 		},
 		TerminateFunc: func() {
-
+			workerPool.Stop()
 		},
 	})
 }

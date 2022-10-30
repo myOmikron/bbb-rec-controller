@@ -3,12 +3,14 @@ package wp
 import (
 	"context"
 	"fmt"
+	"net"
+
 	"github.com/labstack/echo/v4"
-	"github.com/myOmikron/bbb-rec-controller/models"
 	"github.com/myOmikron/echotools/worker"
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/firefox"
-	"net"
+
+	"github.com/myOmikron/bbb-rec-controller/models"
 )
 
 type w struct {
