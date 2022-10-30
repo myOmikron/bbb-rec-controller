@@ -1,7 +1,11 @@
 package server
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/labstack/echo/v4"
 
-func defineRoutes(e *echo.Echo) {
+	"github.com/myOmikron/bbb-rec-controller/models"
+)
+
+func defineRoutes(e *echo.Echo, conf *models.Config) {
 
 }

@@ -1,0 +1,22 @@
+[Server]
+ListenAddress = "127.0.0.1"
+ListenPort = 8080
+# This defines the address, bnv-manager is available for users.
+# E.g.: https://manager.example.com or http://manager.example.com:8080
+PublicURI = ""
+# Add each host / domain this server should be accessed by.
+# In scheme: https://manager.example.com
+AllowedHosts = [
+    "",
+]
+# You can set this to true, if bnv-manager is deployed behin a reverse proxy
+# and therefore has no TLS configured. You can still set your AllowedHosts
+# to enforce the use of https:// and add the X-Forwarded-Proto header on
+# your reverse proxy.
+UseForwardedProtoHeader = true
+
+[BigBlueButton]
+# URI of the BBB Server. Can be retrieved using `bbb-conf --secret`
+ServerURI = "https://bbb.example.com/bigbluebutton/"
+# Secret of the BBB Server. Can be retrieved using `bbb-conf --secret`
+SharedSecret = ""
