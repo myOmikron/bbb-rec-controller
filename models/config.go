@@ -13,7 +13,13 @@ type BigBlueButton struct {
 	SharedSecret string
 }
 
+type Selenium struct {
+	SeleniumPath string
+	ChromiumPath string
+}
+
 type Config struct {
 	Server        Server
 	BigBlueButton BigBlueButton
+	Selenium      Selenium
 }

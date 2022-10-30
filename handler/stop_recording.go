@@ -16,7 +16,6 @@ type stopRecordingResponse struct {
 }
 
 func (w *Wrapper) StopRecording(c echo.Context) error {
-
 	form := stopRecordingRequest{}
 
 	if err := c.Bind(&form); err != nil {
@@ -33,6 +32,15 @@ func (w *Wrapper) StopRecording(c echo.Context) error {
 			ReturnCode: "FAILED",
 			MessageKey: "MeetingIDMissing",
 			Message:    "The parameter meetingID is missing",
+		})
+	}
+
+	q := c.Request().URL.Query()
+	if !w.BBB.IsValid("stopRecording", &q) {
+		return c.XML(400, errorResponse{
+			ReturnCode: "FAILED",
+			Message:    "ChecksumIncorrect",
+			MessageKey: "The provided checksum was incorrect",
 		})
 	}
 

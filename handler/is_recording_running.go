@@ -33,6 +33,15 @@ func (w *Wrapper) IsRecordingRunning(c echo.Context) error {
 		})
 	}
 
+	q := c.Request().URL.Query()
+	if !w.BBB.IsValid("stopRecording", &q) {
+		return c.XML(400, errorResponse{
+			ReturnCode: "FAILED",
+			Message:    "ChecksumIncorrect",
+			MessageKey: "The provided checksum was incorrect",
+		})
+	}
+
 	return c.XML(200, isRecordingRunningResponse{
 		ReturnCode: "SUCCESS",
 	})

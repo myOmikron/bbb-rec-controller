@@ -4,6 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/labstack/gommon/log"
+	"github.com/myOmikron/bbb-rec-controller/modules/bigbluebutton"
+	"github.com/myOmikron/bbb-rec-controller/modules/wp"
+	"github.com/myOmikron/echotools/worker"
 	"io/fs"
 	"net"
 	"os"
@@ -36,9 +39,20 @@ func StartServer(configPath string) {
 	e.HidePort = true
 	e.Logger.SetLevel(log.DEBUG)
 
+	workerPool := worker.NewPool(&worker.PoolConfig{
+		NumWorker: 4,
+		QueueSize: 4,
+	})
+	if err := workerPool.StartWithWorkerCreator(wp.CreateSeleniumWorker(conf)); err != nil {
+		color.Println(color.RED, err.Error())
+		return
+	}
+
+	bbb := bigbluebutton.BBB{Config: &conf.BigBlueButton}
+
 	initializeMiddleware(e, conf)
 
-	defineRoutes(e, conf)
+	defineRoutes(e, conf, &bbb)
 
 	color.Printf(color.PURPLE, "Started listening on http://%s\n", net.JoinHostPort(conf.Server.ListenAddress, strconv.Itoa(int(conf.Server.ListenPort))))
 	execution.SignalStart(e, net.JoinHostPort(conf.Server.ListenAddress, strconv.Itoa(int(conf.Server.ListenPort))), &execution.Config{

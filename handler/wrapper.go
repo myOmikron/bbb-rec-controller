@@ -1,9 +1,13 @@
 package handler
 
-import "github.com/myOmikron/bbb-rec-controller/models"
+import (
+	"github.com/myOmikron/bbb-rec-controller/models"
+	"github.com/myOmikron/bbb-rec-controller/modules/bigbluebutton"
+)
 
 type Wrapper struct {
 	Config *models.Config
+	BBB    *bigbluebutton.BBB
 }
 
 type errorResponse struct {

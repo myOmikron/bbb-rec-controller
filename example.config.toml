@@ -20,3 +20,7 @@ UseForwardedProtoHeader = true
 ServerURI = "https://bbb.example.com/bigbluebutton/"
 # Secret of the BBB Server. Can be retrieved using `bbb-conf --secret`
 SharedSecret = ""
+
+[Selenium]
+SeleniumPath = ""
+ChromiumPath = ""
