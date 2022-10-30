@@ -3,6 +3,7 @@ package server
 import (
 	"errors"
 	"fmt"
+	"github.com/labstack/gommon/log"
 	"io/fs"
 	"net"
 	"os"
@@ -33,6 +34,7 @@ func StartServer(configPath string) {
 	e := echo.New()
 	e.HideBanner = true
 	e.HidePort = true
+	e.Logger.SetLevel(log.DEBUG)
 
 	initializeMiddleware(e, conf)
 

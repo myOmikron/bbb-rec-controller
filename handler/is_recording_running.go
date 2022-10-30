@@ -8,9 +8,24 @@ type isRecordingRunningRequest struct {
 }
 
 type isRecordingRunningResponse struct {
+	ReturnCode string   `xml:"returncode"`
+	Running    bool     `xml:"running"`
+	XMLName    struct{} `xml:"response"`
 }
 
 func (w *Wrapper) IsRecordingRunning(c echo.Context) error {
+	form := isRecordingRunningRequest{}
 
-	return c.XML(200, isRecordingRunningResponse{})
+	if err := c.Bind(&form); err != nil {
+		c.Logger().Info(err)
+		return c.XML(400, errorResponse{
+			ReturnCode: "FAILED",
+			MessageKey: "BadRequest",
+			Message:    err.Error(),
+		})
+	}
+
+	return c.XML(200, isRecordingRunningResponse{
+		ReturnCode: "SUCCESS",
+	})
 }

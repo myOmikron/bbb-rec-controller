@@ -10,9 +10,9 @@ type stopRecordingRequest struct {
 }
 
 type stopRecordingResponse struct {
-	ReturnCode string   `xml:"returncode"`
-	Running    bool     `xml:"running"`
-	XMLName    struct{} `xml:"response"`
+	ReturnCode    string   `xml:"returncode"`
+	StopRecording bool     `xml:"stopRecording"`
+	XMLName       struct{} `xml:"response"`
 }
 
 func (w *Wrapper) StopRecording(c echo.Context) error {
@@ -38,7 +38,7 @@ func (w *Wrapper) StopRecording(c echo.Context) error {
 	running := false
 
 	return c.XML(200, stopRecordingResponse{
-		ReturnCode: "SUCCESS",
-		Running:    running,
+		ReturnCode:    "SUCCESS",
+		StopRecording: running,
 	})
 }
