@@ -103,7 +103,7 @@ func getRecordingButton(
 		}
 
 		// Join meeting
-		err = driver.Get(bbb.Join("bbb-rec-controller", meetingId)) // TODO don't hard code
+		err = driver.Get(bbb.Join(bbb.Config.Username, meetingId))
 		if err != nil {
 			return ErrSeleniumGet
 		}

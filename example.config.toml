@@ -20,6 +20,8 @@ UseForwardedProtoHeader = true
 ServerURI = "https://bbb.example.com/bigbluebutton/"
 # Secret of the BBB Server. Can be retrieved using `bbb-conf --secret`
 SharedSecret = ""
+# Username to use when joining meetings
+Username = "BBB Bot"
 
 [Selenium]
 # The path to the selenium-server.jar

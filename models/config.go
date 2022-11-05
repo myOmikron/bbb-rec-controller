@@ -11,6 +11,7 @@ type Server struct {
 type BigBlueButton struct {
 	ServerURI    string
 	SharedSecret string
+	Username     string
 }
 
 type Selenium struct {

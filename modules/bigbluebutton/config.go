@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	ErrInvalidURL = errors.New("the configured bigbluebutton server uri is invalid")
+	ErrInvalidURL      = errors.New("the configured bigbluebutton server uri is invalid")
+	ErrInvalidUsername = errors.New("the configured username mustn't be empty")
 )
 
 type BBB struct {
@@ -21,6 +22,9 @@ func New(logger echo.Logger, config *models.BigBlueButton) (*BBB, error) {
 	base, err := url.Parse(config.ServerURI)
 	if err != nil {
 		return nil, ErrInvalidURL
+	}
+	if len(config.Username) == 0 {
+		return nil, ErrInvalidUsername
 	}
 	return &BBB{
 		Config:  config,
