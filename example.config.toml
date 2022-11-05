@@ -30,6 +30,12 @@ SeleniumPath = ""
 GeckoDriverPath = ""
 # The path to firefox
 FirefoxPath = ""
+# The path to chromium
+ChromiumPath = ""
+# The path to chromedriver
+ChromedriverPath = ""
+# If true, chromium with chromedriver will be used. Otherwise firefox with geckodriver
+UseChromium = true
 # Set to true to disable headless running
 DisableHeadless = false
 # The number of running instances

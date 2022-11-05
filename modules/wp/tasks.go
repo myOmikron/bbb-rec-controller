@@ -3,14 +3,13 @@ package wp
 import (
 	"context"
 	"fmt"
+	"github.com/tebeka/selenium/firefox"
 	"net"
 	"os"
 
+	"github.com/myOmikron/bbb-rec-controller/models"
 	"github.com/myOmikron/echotools/worker"
 	"github.com/tebeka/selenium"
-	"github.com/tebeka/selenium/firefox"
-
-	"github.com/myOmikron/bbb-rec-controller/models"
 )
 
 type w struct {
@@ -69,8 +68,13 @@ func CreateSeleniumWorker(conf *models.Config) func() (worker.Worker, error) {
 		}
 
 		opts := []selenium.ServiceOption{
-			selenium.GeckoDriver(conf.Selenium.GeckoDriverPath),
 			selenium.Output(os.Stdout),
+		}
+
+		if conf.Selenium.UseChromium {
+			opts = append(opts, selenium.ChromeDriver(conf.Selenium.ChromedriverPath))
+		} else {
+			opts = append(opts, selenium.GeckoDriver(conf.Selenium.GeckoDriverPath))
 		}
 
 		if !conf.Selenium.DisableHeadless {
@@ -82,11 +86,16 @@ func CreateSeleniumWorker(conf *models.Config) func() (worker.Worker, error) {
 			return nil, err
 		}
 
-		caps := selenium.Capabilities{"browserName": "firefox"}
-		f := firefox.Capabilities{
-			Binary: conf.Selenium.FirefoxPath,
+		var caps selenium.Capabilities
+		if conf.Selenium.UseChromium {
+			caps = selenium.Capabilities{"browserName": "chrome"}
+		} else {
+			caps = selenium.Capabilities{"browserName": "firefox"}
+			f := firefox.Capabilities{
+				Binary: conf.Selenium.FirefoxPath,
+			}
+			caps.AddFirefox(f)
 		}
-		caps.AddFirefox(f)
 
 		wd, err := selenium.NewRemote(caps, fmt.Sprintf("http://localhost:%d/wd/hub", port))
 		if err != nil {
