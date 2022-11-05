@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net"
+	"os"
 
-	"github.com/labstack/echo/v4"
 	"github.com/myOmikron/echotools/worker"
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/firefox"
@@ -61,7 +61,7 @@ func pickUnusedPort() (int, error) {
 	return port, nil
 }
 
-func CreateSeleniumWorker(conf *models.Config, logger echo.Logger) func() (worker.Worker, error) {
+func CreateSeleniumWorker(conf *models.Config) func() (worker.Worker, error) {
 	return func() (worker.Worker, error) {
 		port, err := pickUnusedPort()
 		if err != nil {
@@ -70,7 +70,7 @@ func CreateSeleniumWorker(conf *models.Config, logger echo.Logger) func() (worke
 
 		opts := []selenium.ServiceOption{
 			selenium.GeckoDriver(conf.Selenium.GeckoDriverPath),
-			selenium.Output(logger.Output()),
+			selenium.Output(os.Stdout),
 		}
 
 		if !conf.Selenium.DisableHeadless {

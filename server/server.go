@@ -43,7 +43,7 @@ func StartServer(configPath string) {
 		NumWorker: int(conf.Selenium.InstanceCount),
 		QueueSize: int(conf.Selenium.InstanceCount),
 	})
-	if err := workerPool.StartWithWorkerCreator(wp.CreateSeleniumWorker(conf, e.Logger)); err != nil {
+	if err := workerPool.StartWithWorkerCreator(wp.CreateSeleniumWorker(conf)); err != nil {
 		color.Println(color.RED, err.Error())
 		return
 	}
