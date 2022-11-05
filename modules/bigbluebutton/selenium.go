@@ -108,6 +108,12 @@ func getRecordingButton(
 			return ErrSeleniumGet
 		}
 
+		// Leave meeting when done
+		defer func() {
+			err := driver.Get(bbb.BaseUrl.String())
+			bbb.Logger.Error(err)
+		}()
+
 		// Run prepare
 		err = prepare(driver)
 		if err != nil {
@@ -160,7 +166,6 @@ func getRecordingButton(
 
 // waitForAndClick waits for a button identified via XPath and clicks it once appeared.
 func waitForAndClick(xpath string, driver selenium.WebDriver, logger echo.Logger) error {
-	// TODO specify interval and timeout
 	err := driver.WaitWithTimeout(func(driver selenium.WebDriver) (bool, error) {
 		// Try getting button
 		button, err := driver.FindElement(selenium.ByXPATH, xpath)
