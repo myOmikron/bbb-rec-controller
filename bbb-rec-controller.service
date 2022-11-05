@@ -1,0 +1,28 @@
+[Unit]
+Description=bbb-rec-controller
+After=network.target
+
+[Service]
+Type=simple
+User=bbb-rec-controller
+Group=bbb-rec-controller
+
+RuntimeDirectory=bbb-rec-controller
+LogsDirectory=bbb-rec-controller
+StateDirectory=bbb-rec-controller
+WorkingDirectory=/var/lib/bbb-rec-controller
+ConfigurationDirectory=bbb-rec-controller
+
+ExecStart=/usr/local/bin/bbb-rec-controller
+ExecReload=/usr/bin/kill -s HUP $MAINPID
+ExecStop=/usr/bin/kill -s INT $MAINPID
+
+Restart=always
+RestartSec=3
+# Send SIGTERM to each process
+KillMode=control-group
+TimeoutStopSec=3
+
+
+[Install]
+WantedBy=multi-user.target
