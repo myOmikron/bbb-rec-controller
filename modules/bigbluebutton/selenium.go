@@ -46,7 +46,7 @@ func (bbb *BBB) PauseRecording(wp worker.Pool, meetingId string) (bool, error) {
 	err := getRecordingButton(
 		wp, bbb, meetingId,
 		func(driver selenium.WebDriver) error {
-			return waitForAndClick("//button[@aria-label='Close Join audio modal'][1]", driver, bbb.Logger)
+			return waitForAndClick("//button[@aria-label='Close How would you like to join the audio?'][1]", driver, bbb.Logger)
 		},
 		func(isRunning bool, button selenium.WebElement, driver selenium.WebDriver) error {
 			if isRunning {
